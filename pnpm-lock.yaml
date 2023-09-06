@@ -4,14 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-optionalDependencies:
-  nblas:
-    specifier: ^2.1.11
-    version: 2.1.11
-  nlapack:
-    specifier: ^2.0.7
-    version: 2.0.7
-
 devDependencies:
   '@types/jest':
     specifier: ^29.5.0
@@ -2458,18 +2450,6 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
-
-  /nblas@2.1.11:
-    resolution: {integrity: sha512-743HR/4/OokJlruyFJgBRqTxwGoiUm12kzx5Ty5luhpwa6ZNUoUh+dZy3/4Eqv8PkgZNzGUpyozumVvFQj+liw==}
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /nlapack@2.0.7:
-    resolution: {integrity: sha512-YBVYApYKXAqBVMS/1qOPideS4nCPcZRUIKLMnuDgkCbd1VXzhu/mXSLCoU9bWiic7Uiv355oDDP3vo24ju61GA==}
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
