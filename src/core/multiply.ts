@@ -39,7 +39,6 @@ export default function (this: NDArray, x: NDArray): NDArray {
   const {
     shape: [r1, c1],
     data: d1,
-    dtype,
   } = this.copy();
   const {
     shape: [r2, c2],

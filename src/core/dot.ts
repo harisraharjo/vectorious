@@ -34,8 +34,8 @@ export const dot = (x: NDArray | ArrayLike<any>, y: NDArray | ArrayLike<any>): n
  * array([1, 2, 3]).dot([4, 5, 6]); // => 32
  */
 export default function (this: NDArray, x: NDArray): number {
-  const { data: d1, length: l1, strides: st1, dtype } = this;
-  const { data: d2, strides: st2 } = x;
+  const { data: d1 } = this;
+  const { data: d2 } = x;
 
   let result: number = 0;
   const iter = new NDMultiIter(this, x);
