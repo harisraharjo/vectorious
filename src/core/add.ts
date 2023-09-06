@@ -1,7 +1,6 @@
 import { NDArray } from './';
 import { NDMultiIter } from '../iterators';
 import { array } from './array';
-import * as blas from '../blas';
 
 /**
  * @static
@@ -40,24 +39,26 @@ export const add = (
  * array([1, 2, 3]).add([4, 5, 6]); // <=> array([5, 7, 9])
  */
 export default function (this: NDArray, x: NDArray | ArrayLike<any>, alpha: number = 1): NDArray {
-  const { data: d1, length: l1, strides: st1, dtype } = this;
-  const { data: d2, strides: st2 } = array(x);
+  const { data: d1 } = this;
+  const { data: d2 } = array(x);
 
-  try {
-    const inc_x = st2[st2.length - 1];
-    const inc_y = st1[st1.length - 1];
+  // try {
+  //   // const inc_x = st2[st2.length - 1];
+  //   // const inc_y = st1[st1.length - 1];
 
-    if (inc_x !== inc_y) {
-      throw new Error('inc_x and inc_y must be equal');
-    }
+  //   // if (inc_x !== inc_y) {
+  //   //   throw new Error('inc_x and inc_y must be equal');
+  //   // }
 
-    blas.axpy(dtype, l1, alpha, d2, inc_x, d1, inc_y);
-  } catch (err) {
-    const iter = new NDMultiIter(this, x);
+  //   // blas.axpy(dtype, l1, alpha, d2, inc_x, d1, inc_y);
+  // } catch (err) {
 
-    for (const [i, j] of iter) {
-      d1[i] += alpha * d2[j];
-    }
+  // }
+
+  const iter = new NDMultiIter(this, x);
+
+  for (const [i, j] of iter) {
+    d1[i] += alpha * d2[j];
   }
 
   return this;

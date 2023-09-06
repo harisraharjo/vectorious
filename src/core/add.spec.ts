@@ -1,6 +1,5 @@
 import { ok, throws } from 'assert';
 
-import * as blas from '../blas';
 import { equals } from './equals';
 import { add } from './add';
 import { array } from './array';
@@ -59,15 +58,15 @@ describe('(v) add', () => {
 });
 
 describe('(v) add (without axpy)', () => {
-  beforeEach(() => {
-    jest.spyOn(blas, 'axpy').mockImplementation(() => {
-      throw new Error();
-    });
-  });
+  // beforeEach(() => {
+  //   jest.spyOn(blas, 'axpy').mockImplementation(() => {
+  //     throw new Error();
+  //   });
+  // });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  // afterEach(() => {
+  //   jest.clearAllMocks();
+  // });
 
   it('should return empty vector if adding two empty vectors', () => {
     const x = array();

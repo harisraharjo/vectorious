@@ -1,7 +1,6 @@
 import { NDArray } from './';
 import { NDMultiIter } from '../iterators';
 import { array } from './array';
-import * as blas from '../blas';
 
 /**
  * @static
@@ -39,21 +38,10 @@ export default function (this: NDArray, x: NDArray): number {
   const { data: d2, strides: st2 } = x;
 
   let result: number = 0;
-  try {
-    const inc_x = st2[st2.length - 1];
-    const inc_y = st1[st1.length - 1];
+  const iter = new NDMultiIter(this, x);
 
-    if (inc_x !== inc_y) {
-      throw new Error('inc_x and inc_y must be equal');
-    }
-
-    result = blas.dot(dtype, l1, d2, inc_x, d1, inc_y);
-  } catch (err) {
-    const iter = new NDMultiIter(this, x);
-
-    for (const [i, j] of iter) {
-      result += d1[i] * d2[j];
-    }
+  for (const [i, j] of iter) {
+    result += d1[i] * d2[j];
   }
 
   return result;

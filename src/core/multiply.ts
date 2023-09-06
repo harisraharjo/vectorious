@@ -2,7 +2,6 @@ import { NDArray } from './';
 import { NDIter } from '../iterators';
 import { array } from './array';
 import { matrix } from './matrix';
-import * as blas from '../blas';
 
 /**
  * @static
@@ -54,22 +53,18 @@ export default function (this: NDArray, x: NDArray): NDArray {
   const y = matrix(r1, c2);
   const { data: d3 } = y;
 
-  try {
-    blas.gemm(dtype, blas.NoTrans, blas.NoTrans, r1, c2, c1, 1, d1, c1, d2, c2, 0, d3, c2);
-  } catch (err) {
-    const iter = new NDIter(y);
+  const iter = new NDIter(y);
 
-    let k;
-    let [ci, cj] = iter.coords;
-    for (const i of iter) {
-      let sum = 0;
-      for (k = 0; k < c1; k += 1) {
-        sum += d1[ci * c1 + k] * d2[k * c2 + cj];
-      }
-
-      d3[i] = sum;
-      [ci, cj] = iter.coords;
+  let k;
+  let [ci, cj] = iter.coords;
+  for (const i of iter) {
+    let sum = 0;
+    for (k = 0; k < c1; k += 1) {
+      sum += d1[ci * c1 + k] * d2[k * c2 + cj];
     }
+
+    d3[i] = sum;
+    [ci, cj] = iter.coords;
   }
 
   return y;

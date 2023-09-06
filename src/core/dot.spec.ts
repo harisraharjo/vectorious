@@ -1,6 +1,5 @@
 import { strictEqual } from 'assert';
 
-import * as blas from '../blas';
 import { dot } from './dot';
 import { array } from './array';
 
@@ -31,12 +30,6 @@ describe('(v) dot', () => {
 });
 
 describe('(v) dot', () => {
-  beforeEach(() => {
-    jest.spyOn(blas, 'dot').mockImplementation(() => {
-      throw new Error();
-    });
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });

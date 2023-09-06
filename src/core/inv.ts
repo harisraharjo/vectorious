@@ -4,7 +4,6 @@ import { array } from './array';
 import { eye } from './eye';
 import { augment } from './augment';
 import { zeros } from './zeros';
-import * as lapack from '../lapack';
 
 /**
  * @static
@@ -39,43 +38,32 @@ export default function (this: NDArray): NDArray {
 
   const {
     shape: [n],
-    dtype,
   } = this;
 
-  try {
-    const { data: d1 } = this;
-    const ipiv = new Int32Array(n);
+  const identity = eye(n);
+  const rref = augment(this, identity).gauss();
+  const left = zeros(n, n);
+  const right = zeros(n, n);
 
-    lapack.getrf(dtype, n, n, d1, n, ipiv);
-    lapack.getri(dtype, n, d1, n, ipiv);
+  const { data: d1 } = rref;
+  const { data: d2 } = left;
+  const { data: d3 } = right;
 
-    return this;
-  } catch (err) {
-    const identity = eye(n);
-    const rref = augment(this, identity).gauss();
-    const left = zeros(n, n);
-    const right = zeros(n, n);
-
-    const { data: d1 } = rref;
-    const { data: d2 } = left;
-    const { data: d3 } = right;
-
-    const iter = new NDIter(rref);
-    let [ci, cj] = iter.coords;
-    for (const i of iter) {
-      if (cj < n) {
-        d2[ci * n + cj] = d1[i];
-      } else {
-        d3[ci * n + (cj - n)] = d1[i];
-      }
-
-      [ci, cj] = iter.coords;
+  const iter = new NDIter(rref);
+  let [ci, cj] = iter.coords;
+  for (const i of iter) {
+    if (cj < n) {
+      d2[ci * n + cj] = d1[i];
+    } else {
+      d3[ci * n + (cj - n)] = d1[i];
     }
 
-    if (!left.equals(identity)) {
-      throw new Error('matrix is not invertible');
-    }
-
-    return right;
+    [ci, cj] = iter.coords;
   }
+
+  if (!left.equals(identity)) {
+    throw new Error('matrix is not invertible');
+  }
+
+  return right;
 }

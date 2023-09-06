@@ -1,6 +1,5 @@
 import { ok, throws } from 'assert';
 
-import * as blas from '../blas';
 import { equals } from './equals';
 import { multiply } from './multiply';
 import { array } from './array';
@@ -99,11 +98,11 @@ describe('(v) multiply', () => {
 });
 
 describe('(v) multiply (without gemm)', () => {
-  beforeEach(() => {
-    jest.spyOn(blas, 'gemm').mockImplementation(() => {
-      throw new Error();
-    });
-  });
+  // beforeEach(() => {
+  //   jest.spyOn(blas, 'gemm').mockImplementation(() => {
+  //     throw new Error();
+  //   });
+  // });
 
   afterEach(() => {
     jest.clearAllMocks();

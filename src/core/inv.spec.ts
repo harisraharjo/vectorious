@@ -1,6 +1,5 @@
 import { ok, throws } from 'assert';
 
-import * as lapack from '../lapack';
 import { equals } from './equals';
 import { inv } from './inv';
 import { array } from './array';
@@ -42,15 +41,6 @@ describe('(v) inv', () => {
 });
 
 describe('(v) inv (without getri and getrf)', () => {
-  beforeEach(() => {
-    jest.spyOn(lapack, 'getri').mockImplementation(() => {
-      throw new Error();
-    });
-    jest.spyOn(lapack, 'getrf').mockImplementation(() => {
-      throw new Error();
-    });
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });

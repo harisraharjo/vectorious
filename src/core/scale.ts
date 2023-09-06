@@ -1,7 +1,6 @@
 import { NDArray } from './';
 import { array } from './array';
 import { NDIter } from '../iterators';
-import * as blas from '../blas';
 
 /**
  * @static
@@ -35,18 +34,11 @@ export const scale = (x: NDArray | ArrayLike<any>, scalar: number): NDArray =>
  * array([1, 2, 3]).scale(2); // <=> array([2, 4, 6])
  */
 export default function (this: NDArray, scalar: number): NDArray {
-  const { data: d1, length: l1, strides: st1, dtype } = this;
+  const { data: d1 } = this;
+  const iter = new NDIter(this);
 
-  try {
-    const inc_x = st1[st1.length - 1];
-
-    blas.scal(dtype, l1, scalar, d1, inc_x);
-  } catch (err) {
-    const iter = new NDIter(this);
-
-    for (const i of iter) {
-      d1[i] *= scalar;
-    }
+  for (const i of iter) {
+    d1[i] *= scalar;
   }
 
   return this;
