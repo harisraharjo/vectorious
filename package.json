@@ -20,8 +20,8 @@
     "benchmark": "for file in $(ls src/**/*.bench.ts); do ts-node $file; done",
     "docs": "tsc --outDir built && jsdoc --configure jsdoc.json && rm -rf built",
     "build:node": "esbuild --bundle src/index.ts --minify --sourcemap --platform=node --outfile=dist/index.js --external:nblas --external:nlapack",
-    "build:browser": "esbuild --bundle src/index.ts --minify --sourcemap --platform=browser --global-name=v --outfile=dist/index.browser.js",
-    "build:esm": "esbuild --bundle src/index.ts --minify --sourcemap --format=esm --outfile=dist/index.mjs",
+    "build:browser": "esbuild --bundle src/index.ts --minify --sourcemap --platform=browser --global-name=v --outfile=dist/index.browser.js --external:nblas --external:nlapack",
+    "build:esm": "esbuild --bundle src/index.ts --minify --sourcemap --format=esm --outfile=dist/index.mjs --external:nblas --external:nlapack",
     "build": "rm -rf dist && tsc -emitDeclarationOnly && pnpm run build:node && pnpm run build:browser && pnpm run build:esm",
     "prepublishOnly": "pnpm run build:esm",
     "prepare": "pnpm run build:esm"
